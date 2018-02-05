@@ -18,8 +18,6 @@ from openprocurement.tender.core.utils import (
     save_tender, optendersresource, apply_patch,
 )
 
-from openprocurement.tender.core.validation import validate_tender_document_update_not_by_author_or_tender_owner
-
 from openprocurement.tender.belowthreshold.validation import validate_document_operation_in_not_allowed_tender_status
 
 
@@ -46,7 +44,6 @@ class TenderDocumentResource(APIResource):
     def collection_post(self):
         """Tender Document Upload"""
         document = upload_file(self.request)
-        document.author = self.request.authenticated_role
         self.context.documents.append(document)
         if save_tender(self.request):
             self.LOGGER.info('Created tender document {}'.format(document.id),
@@ -70,8 +67,7 @@ class TenderDocumentResource(APIResource):
         ]
         return {'data': document_data}
 
-    @json_view(permission='upload_tender_documents', validators=(validate_file_update, validate_document_operation_in_not_allowed_tender_status,
-               validate_tender_document_update_not_by_author_or_tender_owner))
+    @json_view(permission='upload_tender_documents', validators=(validate_file_update, validate_document_operation_in_not_allowed_tender_status))
     def put(self):
         """Tender Document Update"""
         document = upload_file(self.request)
@@ -82,7 +78,7 @@ class TenderDocumentResource(APIResource):
             return {'data': document.serialize("view")}
 
     @json_view(content_type="application/json", permission='upload_tender_documents', validators=(validate_patch_document_data,
-               validate_document_operation_in_not_allowed_tender_status, validate_tender_document_update_not_by_author_or_tender_owner))
+               validate_document_operation_in_not_allowed_tender_status))
     def patch(self):
         """Tender Document Update"""
         if apply_patch(self.request, src=self.request.context.serialize()):
