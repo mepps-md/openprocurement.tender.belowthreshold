@@ -48,7 +48,7 @@ from openprocurement.tender.core.utils import (
 )
 
 from openprocurement.tender.core.constants import (
-    CPV_ITEMS_CLASS_FROM, COMPLAINT_STAND_STILL_TIME
+    COMPLAINT_STAND_STILL_TIME
 )
 
 enquiries_role = (blacklist('owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
@@ -123,7 +123,7 @@ class Tender(BaseTender):
             'contracting': whitelist('doc_id', 'owner'),
         }
 
-    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+    items = ListType(ModelType(Item), required=True, min_size=1, validators=[validate_cpv_group, validate_items_uniq])  # The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
     value = ModelType(Value, required=True)  # The total estimated value of the procurement.
     enquiryPeriod = ModelType(PeriodEndRequired, required=True)  # The period during which enquiries may be made and will be answered.
     tenderPeriod = ModelType(PeriodEndRequired, required=True)  # The period when the tender is open for submissions. The end date is the closing date for tender submissions.
@@ -267,13 +267,6 @@ class Tender(BaseTender):
         return Value(dict(amount=min([i.minimalStep.amount for i in self.lots]),
                           currency=self.minimalStep.currency,
                           valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
-
-    def validate_items(self, data, items):
-        cpv_336_group = items[0].classification.id[:3] == '336' if items else False
-        if not cpv_336_group and (data.get('revisions')[0].date if data.get('revisions') else get_now()) > CPV_ITEMS_CLASS_FROM and items and len(set([i.classification.id[:4] for i in items])) != 1:
-            raise ValidationError(u"CPV class of items should be identical")
-        else:
-            validate_cpv_group(items)
 
     def validate_features(self, data, features):
         if features and data['lots'] and any([
