@@ -5,7 +5,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX, CPV_BLOCK_FROM
+from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM, CPV_ITEMS_CLASS_FROM,
 )
@@ -548,7 +548,7 @@ def create_tender_invalid(self):
         ])
 
     cpv = self.initial_data["items"][0]['classification']["id"]
-    self.initial_data["items"][0]['classification']["id"] = u'160173000-1'
+    self.initial_data["items"][0]['classification']["id"] = u'60173000-1'
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
     self.initial_data["items"][0]['classification']["id"] = cpv
     self.assertEqual(response.status, '422 Unprocessable Entity')
@@ -559,12 +559,10 @@ def create_tender_invalid(self):
     self.assertIn("Value must be one of [u", response.json['errors'][0][u'description'][0][u'classification'][u'id'][0])
 
     cpv = self.initial_data["items"][0]['classification']["id"]
-    if get_now() < CPV_BLOCK_FROM:
-        self.initial_data["items"][0]['classification']["scheme"] = u'CPV'
+    self.initial_data["items"][0]['classification']["scheme"] = u'ДК021'
     self.initial_data["items"][0]['classification']["id"] = u'00000000-0'
     response = self.app.post_json(request_path, {'data': self.initial_data}, status=422)
-    if get_now() < CPV_BLOCK_FROM:
-        self.initial_data["items"][0]['classification']["scheme"] = u'CPV'
+    self.initial_data["items"][0]['classification']["scheme"] = u'ДК021'
     self.initial_data["items"][0]['classification']["id"] = cpv
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -1088,7 +1086,7 @@ def patch_tender(self):
     self.assertEqual(len(response.json['data']['items']), 1)
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {'items': [{"classification": {
-        "scheme": "ДК021",
+        "scheme": "CPV",
         "id": "55523100-3",
         "description": "Послуги з харчування у школах"
     }}]}})

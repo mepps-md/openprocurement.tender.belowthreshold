@@ -45,7 +45,7 @@ test_tender_data = {
         {
             "description": u"футляри до державних нагород",
             "classification": {
-                "scheme": u"ДК021",
+                "scheme": u"CPV",
                 "id": u"44617100-9",
                 "description": u"Cartons"
             },
