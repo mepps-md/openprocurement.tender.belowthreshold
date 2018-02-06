@@ -63,7 +63,8 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         super(TenderBidDocumentResourceTest, self).setUp()
         # Create bid
         response = self.app.post_json('/tenders/{}/bids'.format(
-            self.tender_id), {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+            self.tender_id), {'data': {'tenderers': [test_organization],
+                                       "value": {"amount": 500, "valueAddedTaxIncluded": False}}})
         bid = response.json['data']
         self.bid_id = bid['id']
         self.bid_token = response.json['access']['token']
@@ -86,7 +87,7 @@ class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_status = 'active.tendering'
     bid_data_wo_docs = {'tenderers': [test_organization],
-                        'value': {'amount': 500},
+                        'value': {'amount': 500, "valueAddedTaxIncluded": False},
                         'documents': []
         }
 

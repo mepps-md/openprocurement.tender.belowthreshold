@@ -34,11 +34,13 @@ test_tender_data = {
     "procuringEntity": test_procuringEntity,
     "value": {
         "amount": 500,
-        "currency": u"MDL"
+        "currency": u"MDL",
+        "valueAddedTaxIncluded": False
     },
     "minimalStep": {
         "amount": 35,
-        "currency": u"MDL"
+        "currency": u"MDL",
+        "valueAddedTaxIncluded": False
     },
     "items": [
         {

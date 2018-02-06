@@ -1305,8 +1305,9 @@ def one_valid_bid_tender(self):
     self.assertIn("auctionPeriod", response.json['data'])
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {
+        'tenderers': [test_organization],
+        "value": {"amount": 500, "valueAddedTaxIncluded": False}}})
     # switch to active.qualification
     self.set_status('active.auction', {'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1356,8 +1357,9 @@ def one_invalid_bid_tender(self):
     self.set_status('active.tendering')
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {
+        'tenderers': [test_organization],
+        "value": {"amount": 500, "valueAddedTaxIncluded": False}}})
     # switch to active.qualification
     self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
@@ -1398,14 +1400,16 @@ def first_bid_tender(self):
     self.set_status('active.tendering')
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'tenderers': [test_organization], "value": {"amount": 450}}})
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {
+        'tenderers': [test_organization],
+        "value": {"amount": 450, "valueAddedTaxIncluded": False}}})
     bid_id = response.json['data']['id']
     bid_token = response.json['access']['token']
     # create second bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'tenderers': [test_organization], "value": {"amount": 475}}})
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {
+        'tenderers': [test_organization],
+        "value": {"amount": 475, "valueAddedTaxIncluded": False}}})
     # switch to active.auction
     self.set_status('active.auction')
 
@@ -1529,8 +1533,9 @@ def lost_contract_for_active_award(self):
     self.set_status('active.tendering')
     # create bid
     self.app.authorization = ('Basic', ('broker', ''))
-    response = self.app.post_json('/tenders/{}/bids'.format(tender_id),
-                                  {'data': {'tenderers': [test_organization], "value": {"amount": 500}}})
+    response = self.app.post_json('/tenders/{}/bids'.format(tender_id), {'data': {
+        'tenderers': [test_organization],
+        "value": {"amount": 500, "valueAddedTaxIncluded": False}}})
     # switch to active.qualification
     self.set_status('active.auction', {"auctionPeriod": {"startDate": None}, 'status': 'active.tendering'})
     self.app.authorization = ('Basic', ('chronograph', ''))
