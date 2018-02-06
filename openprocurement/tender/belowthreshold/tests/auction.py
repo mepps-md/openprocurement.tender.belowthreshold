@@ -85,7 +85,7 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
             ],
             "value": {
                 "amount": 469,
-                "currency": "UAH",
+                "currency": "MDL",
                 "valueAddedTaxIncluded": True
             }
         }
@@ -134,7 +134,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
             ],
             "value": {
                 "amount": 469,
-                "currency": "UAH",
+                "currency": "MDL",
                 "valueAddedTaxIncluded": True
             }
         },
@@ -151,7 +151,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
             ],
             "value": {
                 "amount": 479,
-                "currency": "UAH",
+                "currency": "MDL",
                 "valueAddedTaxIncluded": True
             }
         }

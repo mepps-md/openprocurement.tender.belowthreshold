@@ -112,7 +112,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.content_type, 'application/json')
     lots = response.json['data']
     self.assertEqual(len(lots), 1)
-    self.assertEqual(lots[0]['minimalStep']['currency'], "UAH")
+    self.assertEqual(lots[0]['minimalStep']['currency'], "MDL")
     self.assertEqual(lots[0]['minimalStep']['amount'], 100)
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"items": [{'relatedLot': '0' * 32}]}}, status=422)
@@ -154,7 +154,7 @@ def create_tender_lot(self):
     self.assertNotIn('guarantee', response.json['data']['lots'][0])
 
     lot3 = deepcopy(self.test_lots_data[0])
-    lot3['guarantee'] = {"amount": 500, "currency": "UAH"}
+    lot3['guarantee'] = {"amount": 500, "currency": "MDL"}
     response = self.app.post_json('/tenders/{}/lots?acc_token={}'.format(self.tender_id, self.tender_token), {'data': lot3}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
@@ -225,7 +225,7 @@ def patch_tender_lot(self):
     self.assertEqual(response.status, '200 OK')
     self.assertIn('guarantee', response.json['data'])
     self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-    self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
+    self.assertEqual(response.json['data']['guarantee']['currency'], 'MDL')
 
     response = self.app.patch_json('/tenders/{}/lots/{}?acc_token={}'.format(self.tender_id, lot['id'], self.tender_token), {"data": {"guarantee": {"currency": "USD"}}})
     self.assertEqual(response.status, '200 OK')
@@ -268,7 +268,7 @@ def patch_tender_currency(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     lot = response.json['data']
-    self.assertEqual(lot['value']['currency'], "UAH")
+    self.assertEqual(lot['value']['currency'], "MDL")
 
     # update tender currency without mimimalStep currency change
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"value": {"currency": "GBP"}}}, status=422)

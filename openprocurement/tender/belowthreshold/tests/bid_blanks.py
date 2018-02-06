@@ -382,7 +382,7 @@ def features_bid(self):
             ],
             "value": {
                 "amount": 469,
-                "currency": "UAH",
+                "currency": "MDL",
                 "valueAddedTaxIncluded": True
             }
         },
@@ -400,7 +400,7 @@ def features_bid(self):
             "status": "draft",
             "value": {
                 "amount": 479,
-                "currency": "UAH",
+                "currency": "MDL",
                 "valueAddedTaxIncluded": True
             }
         }
@@ -422,7 +422,7 @@ def features_bid_invalid(self):
         ],
         "value": {
             "amount": 469,
-            "currency": "UAH",
+            "currency": "MDL",
             "valueAddedTaxIncluded": True
         }
     }

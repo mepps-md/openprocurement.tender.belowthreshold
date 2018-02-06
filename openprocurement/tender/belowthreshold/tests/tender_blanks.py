@@ -1034,7 +1034,7 @@ def patch_tender(self):
     self.assertEqual(response.status, '200 OK')
     self.assertIn('guarantee', response.json['data'])
     self.assertEqual(response.json['data']['guarantee']['amount'], 12)
-    self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
+    self.assertEqual(response.json['data']['guarantee']['currency'], 'MDL')
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {"data": {"guarantee": {"currency": "USD"}}})
     self.assertEqual(response.status, '200 OK')
@@ -1158,7 +1158,7 @@ def guarantee(self):
     self.assertEqual(response.status, '200 OK')
     self.assertIn('guarantee', response.json['data'])
     self.assertEqual(response.json['data']['guarantee']['amount'], 55)
-    self.assertEqual(response.json['data']['guarantee']['currency'], 'UAH')
+    self.assertEqual(response.json['data']['guarantee']['currency'], 'MDL')
 
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(tender['id'], token),
                                    {"data": {"guarantee": {"currency": "USD"}}})

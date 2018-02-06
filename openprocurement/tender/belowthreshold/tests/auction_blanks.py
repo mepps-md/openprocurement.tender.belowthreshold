@@ -97,7 +97,7 @@ def post_tender_auction(self):
                 "id": self.initial_bids[1]['id'],
                 "value": {
                     "amount": 409,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             }
@@ -112,7 +112,7 @@ def post_tender_auction(self):
     patch_data['bids'].append({
         "value": {
             "amount": 419,
-            "currency": "UAH",
+            "currency": "MDL",
             "valueAddedTaxIncluded": True
         }
     })
@@ -242,7 +242,7 @@ def post_tender_auction_document(self):
                 "id": self.initial_bids[1]['id'],
                 "value": {
                     "amount": 409,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             },
@@ -250,7 +250,7 @@ def post_tender_auction_document(self):
                 'id': self.initial_bids[0]['id'],
                 "value": {
                     "amount": 419,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             }
@@ -371,7 +371,7 @@ def post_tender_lot_auction(self):
                     {
                         "value": {
                             "amount": 409,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -390,7 +390,7 @@ def post_tender_lot_auction(self):
             {
                 "value": {
                     "amount": 419,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             }
@@ -572,7 +572,7 @@ def post_tender_lot_auction_document(self):
                     {
                         "value": {
                             "amount": 409,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -584,7 +584,7 @@ def post_tender_lot_auction_document(self):
                     {
                         "value": {
                             "amount": 419,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -671,7 +671,7 @@ def post_tender_lots_auction(self):
                     {
                         "value": {
                             "amount": 409,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -690,7 +690,7 @@ def post_tender_lots_auction(self):
             {
                 "value": {
                     "amount": 419,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             }
@@ -933,7 +933,7 @@ def post_tender_lots_auction_document(self):
                     {
                         "value": {
                             "amount": 409,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -946,7 +946,7 @@ def post_tender_lots_auction_document(self):
                     {
                         "value": {
                             "amount": 419,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -1020,7 +1020,7 @@ def post_tender_auction_feature(self):
                 "id": self.initial_bids[1]['id'],
                 "value": {
                     "amount": 459,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             },
@@ -1037,7 +1037,7 @@ def post_tender_auction_feature(self):
     patch_data['bids'].append({
         "value": {
             "amount": 459,
-            "currency": "UAH",
+            "currency": "MDL",
             "valueAddedTaxIncluded": True
         }
     })
@@ -1142,7 +1142,7 @@ def post_tender_lot_auction_features(self):
                     {
                         "value": {
                             "amount": 409,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -1161,7 +1161,7 @@ def post_tender_lot_auction_features(self):
             {
                 "value": {
                     "amount": 409,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             }
@@ -1280,7 +1280,7 @@ def post_tender_lots_auction_features(self):
                     {
                         "value": {
                             "amount": 409,
-                            "currency": "UAH",
+                            "currency": "MDL",
                             "valueAddedTaxIncluded": True
                         }
                     }
@@ -1299,7 +1299,7 @@ def post_tender_lots_auction_features(self):
             {
                 "value": {
                     "amount": 409,
-                    "currency": "UAH",
+                    "currency": "MDL",
                     "valueAddedTaxIncluded": True
                 }
             }
