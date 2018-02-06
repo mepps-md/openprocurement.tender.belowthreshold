@@ -136,7 +136,7 @@ test_bids = [
         "value": {
             "amount": 469,
             "currency": "MDL",
-            "valueAddedTaxIncluded": True
+            "valueAddedTaxIncluded": False
         }
     },
     {
@@ -146,7 +146,7 @@ test_bids = [
         "value": {
             "amount": 479,
             "currency": "MDL",
-            "valueAddedTaxIncluded": True
+            "valueAddedTaxIncluded": False
         }
     }
 ]

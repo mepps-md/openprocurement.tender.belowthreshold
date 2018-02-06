@@ -98,7 +98,7 @@ def post_tender_auction(self):
                 "value": {
                     "amount": 409,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             }
         ]
@@ -113,7 +113,7 @@ def post_tender_auction(self):
         "value": {
             "amount": 419,
             "currency": "MDL",
-            "valueAddedTaxIncluded": True
+            "valueAddedTaxIncluded": False
         }
     })
 
@@ -243,7 +243,7 @@ def post_tender_auction_document(self):
                 "value": {
                     "amount": 409,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             },
             {
@@ -251,7 +251,7 @@ def post_tender_auction_document(self):
                 "value": {
                     "amount": 419,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             }
         ]
@@ -372,7 +372,7 @@ def post_tender_lot_auction(self):
                         "value": {
                             "amount": 409,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                 ]
@@ -391,7 +391,7 @@ def post_tender_lot_auction(self):
                 "value": {
                     "amount": 419,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             }
         ]
@@ -573,7 +573,7 @@ def post_tender_lot_auction_document(self):
                         "value": {
                             "amount": 409,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                 ]
@@ -585,7 +585,7 @@ def post_tender_lot_auction_document(self):
                         "value": {
                             "amount": 419,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                 ]
@@ -672,7 +672,7 @@ def post_tender_lots_auction(self):
                         "value": {
                             "amount": 409,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                 ]
@@ -691,7 +691,7 @@ def post_tender_lots_auction(self):
                 "value": {
                     "amount": 419,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             }
         ]
@@ -934,7 +934,7 @@ def post_tender_lots_auction_document(self):
                         "value": {
                             "amount": 409,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                     for i in self.initial_lots
@@ -947,7 +947,7 @@ def post_tender_lots_auction_document(self):
                         "value": {
                             "amount": 419,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                     for i in self.initial_lots
@@ -1021,7 +1021,7 @@ def post_tender_auction_feature(self):
                 "value": {
                     "amount": 459,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             },
         ]
@@ -1038,7 +1038,7 @@ def post_tender_auction_feature(self):
         "value": {
             "amount": 459,
             "currency": "MDL",
-            "valueAddedTaxIncluded": True
+            "valueAddedTaxIncluded": False
         }
     })
 
@@ -1143,7 +1143,7 @@ def post_tender_lot_auction_features(self):
                         "value": {
                             "amount": 409,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                 ]
@@ -1162,7 +1162,7 @@ def post_tender_lot_auction_features(self):
                 "value": {
                     "amount": 409,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             }
         ]
@@ -1281,7 +1281,7 @@ def post_tender_lots_auction_features(self):
                         "value": {
                             "amount": 409,
                             "currency": "MDL",
-                            "valueAddedTaxIncluded": True
+                            "valueAddedTaxIncluded": False
                         }
                     }
                 ]
@@ -1300,7 +1300,7 @@ def post_tender_lots_auction_features(self):
                 "value": {
                     "amount": 409,
                     "currency": "MDL",
-                    "valueAddedTaxIncluded": True
+                    "valueAddedTaxIncluded": False
                 }
             }
         ]

@@ -243,6 +243,10 @@ class Tender(BaseTender):
                           currency=self.minimalStep.currency,
                           valueAddedTaxIncluded=self.minimalStep.valueAddedTaxIncluded)) if self.lots else self.minimalStep
 
+    def validate_value(self, data, value):
+        if value.valueAddedTaxIncluded is not False:
+            raise ValidationError(u"Currently, only procedures with VAT excluded are supported")
+
     def validate_features(self, data, features):
         if features and data['lots'] and any([
             round(vnmax([

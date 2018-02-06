@@ -86,7 +86,7 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
             "value": {
                 "amount": 469,
                 "currency": "MDL",
-                "valueAddedTaxIncluded": True
+                "valueAddedTaxIncluded": False
             }
         }
         for i in range(3)
@@ -135,7 +135,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
             "value": {
                 "amount": 469,
                 "currency": "MDL",
-                "valueAddedTaxIncluded": True
+                "valueAddedTaxIncluded": False
             }
         },
         {
@@ -152,7 +152,7 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
             "value": {
                 "amount": 479,
                 "currency": "MDL",
-                "valueAddedTaxIncluded": True
+                "valueAddedTaxIncluded": False
             }
         }
     ]

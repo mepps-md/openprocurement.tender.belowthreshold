@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import unittest
 from copy import deepcopy
 from datetime import timedelta
 from email.header import Header
@@ -326,6 +327,7 @@ def patch_tender_currency(self):
     self.assertEqual(lot['minimalStep']['currency'], "GBP")
 
 
+@unittest.skip("In MEPPS VAT always False")
 def patch_tender_vat(self):
     # set tender VAT
     response = self.app.patch_json('/tenders/{}?acc_token={}'.format(self.tender_id, self.tender_token), {"data": {"value": {"valueAddedTaxIncluded": True}}})
@@ -745,7 +747,7 @@ def create_tender_bid_invalid(self):
         {u'description': [{u'value': [u'value of bid should be less than value of lot']}], u'location': u'body', u'name': u'lotValues'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
+    response = self.app.post_json(request_path, {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': True}, 'relatedLot': self.initial_lots[0]['id']}]}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
@@ -852,7 +854,7 @@ def create_tender_bid_invalid_feature(self):
         {u'description': [{u'value': [u'value of bid should be less than value of lot']}], u'location': u'body', u'name': u'lotValues'}
     ])
 
-    response = self.app.post_json(request_path, {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': False}, 'relatedLot': self.lot_id}]}}, status=422)
+    response = self.app.post_json(request_path, {'data': {'tenderers': [test_organization], 'lotValues': [{"value": {"amount": 500, 'valueAddedTaxIncluded': True}, 'relatedLot': self.lot_id}]}}, status=422)
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['status'], 'error')
