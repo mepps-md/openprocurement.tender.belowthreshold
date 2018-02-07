@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-
+from iso8601 import parse_date
 from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -749,3 +749,54 @@ def lot2_patch_tender_contract_document(self):
     self.assertEqual(response.status, '403 Forbidden')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['errors'][0]["description"], "Can update document only in active lot status")
+
+
+# TenderContractChangeStatusTest
+
+
+def patch_tender_contract_pending_signed_status(self):
+    response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
+    contract = response.json['data'][0]
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"status": "pending.signed"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "pending.signed")
+    last_status_change_date = response.json['data']['date']
+    stand_still_end = parse_date(last_status_change_date) + timedelta(hours=24)
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"description": "new description"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.body, 'null')
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"status": "pending"}}, status=403)
+    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['errors'][0]["description"],
+                     'Can\'t return contract to pending status before ({})'.format(stand_still_end.isoformat()))
+
+    # time travel: set last contract status update in 24 hours earlier
+    tender = self.db.get(self.tender_id)
+    date_in_the_past = parse_date(last_status_change_date) - timedelta(hours=24)
+    tender['contracts'][-1]["date"] = date_in_the_past.isoformat()
+    self.db.save(tender)
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"status": "pending"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "pending")
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"status": "pending.signed"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "pending.signed")
