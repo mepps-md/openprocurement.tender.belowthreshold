@@ -19,6 +19,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_only_for_active_lots,
     validate_contract_operation_not_in_allowed_status
 )
+from openprocurement.tender.belowthreshold.constants import STAND_STILL_PENDING_SIGNED
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
 )
@@ -67,7 +68,7 @@ class TenderAwardContractResource(APIResource):
         if contract_status != self.request.context.status and (contract_status not in ['pending', 'pending.signed'] or self.request.context.status not in ['active', 'pending', 'pending.signed']):
             raise_operation_error(self.request, 'Can\'t update contract status')
         if contract_status == 'pending.signed' and self.request.context.status == 'pending':
-            stand_still_end = last_status_change_date + timedelta(hours=24)
+            stand_still_end = last_status_change_date + STAND_STILL_PENDING_SIGNED
             if get_now() < stand_still_end:
                 raise_operation_error(self.request, 'Can\'t return contract to pending status before ({})'.format((stand_still_end).isoformat()))
         if self.request.context.status == 'active' and not self.request.context.dateSigned:
