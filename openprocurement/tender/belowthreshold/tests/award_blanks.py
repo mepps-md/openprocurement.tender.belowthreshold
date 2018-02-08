@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
+import unittest
+from datetime import timedelta
+
+from openprocurement.tender.belowthreshold.constants import (
+    STAND_STILL_TIME
+)
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_organization,
+    SANDBOX_MODE
 )
 
 
@@ -268,6 +275,7 @@ def patch_tender_award(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (complete) tender status")
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def patch_tender_award_unsuccessful(self):
     auth = self.app.authorization
     self.app.authorization = ('Basic', ('token', ''))
@@ -530,6 +538,7 @@ def patch_tender_lot_award(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't update award in current (complete) tender status")
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def patch_tender_lot_award_unsuccessful(self):
     auth = self.app.authorization
     self.app.authorization = ('Basic', ('token', ''))
@@ -838,6 +847,7 @@ def create_tender_award_complaint(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't add complaint in current (unsuccessful) tender status")
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def patch_tender_award_complaint(self):
     token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
@@ -1111,6 +1121,7 @@ def create_tender_lot_award_complaint(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't add complaint in current (unsuccessful) tender status")
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def patch_tender_lot_award_complaint(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.post_json('/tenders/{}/awards/{}/complaints?acc_token={}'.format(
@@ -1322,6 +1333,7 @@ def create_tender_lots_award_complaint(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can add complaint only in active lot status")
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def patch_tender_lots_award_complaint(self):
     bid_token = self.initial_bids_tokens.values()[0]
     response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token),

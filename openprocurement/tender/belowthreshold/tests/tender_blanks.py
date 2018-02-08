@@ -9,9 +9,13 @@ from openprocurement.api.constants import COORDINATES_REG_EXP, ROUTE_PREFIX
 from openprocurement.tender.core.constants import (
     CANT_DELETE_PERIOD_START_DATE_FROM
 )
+from openprocurement.tender.belowthreshold.constants import (
+    STAND_STILL_TIME
+)
 from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_organization,
+    SANDBOX_MODE
 )
 
 # TenderTest
@@ -1386,6 +1390,7 @@ def one_invalid_bid_tender(self):
     self.assertEqual(response.json['data']['status'], 'unsuccessful')
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def first_bid_tender(self):
     self.app.authorization = ('Basic', ('broker', ''))
     # empty tenders listing

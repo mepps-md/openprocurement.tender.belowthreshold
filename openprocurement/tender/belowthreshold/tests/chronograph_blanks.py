@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
+import unittest
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.constants import (
+    STAND_STILL_TIME
+)
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_organization,
+    SANDBOX_MODE
 )
 
 
@@ -395,6 +400,7 @@ def award_switch_from_pending(self):
         self.assertEqual(response.json['data']['awards'][0]["complaints"][index]['status'], status)
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def award_switch_to_complaint(self):
     token = self.initial_bids_tokens.values()[0]
     response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})

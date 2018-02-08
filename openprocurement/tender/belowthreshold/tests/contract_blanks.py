@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
+import unittest
 from datetime import timedelta
 from iso8601 import parse_date
 from openprocurement.api.utils import get_now
 
-from openprocurement.tender.belowthreshold.constants import STAND_STILL_PENDING_SIGNED
+from openprocurement.tender.belowthreshold.constants import (
+    STAND_STILL_TIME,
+    STAND_STILL_PENDING_SIGNED
+)
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_organization
+    test_organization,
+    SANDBOX_MODE
 )
 
 
@@ -142,6 +147,7 @@ def create_tender_contract_in_complete_status(self):
     self.assertEqual(response.json['errors'][0]["description"], "Can't update contract in current (complete) tender status")
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def patch_tender_contract(self):
     self.app.authorization = ('Basic', ('token', ''))
     response = self.app.get('/tenders/{}/contracts'.format( self.tender_id))
@@ -346,6 +352,7 @@ def get_tender_contracts(self):
 # Tender2LotContractResourceTest
 
 
+@unittest.skipIf(SANDBOX_MODE and STAND_STILL_TIME == timedelta(minutes=1), 'Skip complaints tests')
 def lot2_patch_tender_contract(self):
     auth = self.app.authorization
     self.app.authorization = ('Basic', ('token', ''))
