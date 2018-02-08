@@ -782,7 +782,7 @@ def patch_tender_contract_pending_signed_status(self):
     self.assertEqual(response.json['errors'][0]["description"],
                      'Can\'t return contract to pending status before ({})'.format(stand_still_end.isoformat()))
 
-    # time travel: set last contract status update in 24 hours earlier
+    # time travel: set last contract status update in 15 mins earlier
     tender = self.db.get(self.tender_id)
     date_in_the_past = parse_date(last_status_change_date) - STAND_STILL_PENDING_SIGNED
     tender['contracts'][-1]["date"] = date_in_the_past.isoformat()
@@ -801,3 +801,15 @@ def patch_tender_contract_pending_signed_status(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data']["status"], "pending.signed")
+
+    # time travel: update award date to move contract from pending.signed to active
+    tender = self.db.get(self.tender_id)
+    tender['awards'][0]["complaintPeriod"]["endDate"] = get_now().isoformat()
+    self.db.save(tender)
+
+    response = self.app.patch_json(
+        '/tenders/{}/contracts/{}?acc_token={}'.format(self.tender_id, contract['id'], self.tender_token),
+        {"data": {"status": "active"}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']["status"], "active")
