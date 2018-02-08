@@ -7,7 +7,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_bids,
     test_lots,
-    test_organization
+    test_organization,
+    test_tender_data
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # TenderContractResourceTest
@@ -27,7 +28,10 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # Tender2LotContractDocumentResourceTest
     lot2_create_tender_contract_document,
     lot2_put_tender_contract_document,
-    lot2_patch_tender_contract_document
+    lot2_patch_tender_contract_document,
+    # TenderContractChangeStatusTest
+    patch_tender_contract_pending_signed_status,
+
 )
 
 
@@ -156,10 +160,35 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     lot2_patch_tender_contract_document = snitch(lot2_patch_tender_contract_document)
 
 
+class TenderContractChangeStatusTest(TenderContentWebTest):
+    initial_status = 'active.qualification'
+    initial_bids = test_bids
+    initial_auth = ('Basic', ('broker', ''))
+
+    def setUp(self):
+        super(TenderContractChangeStatusTest, self).setUp()
+        # Create award
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('token', ''))
+        response = self.app.post_json('/tenders/{}/awards'.format(
+            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'], 'value': test_tender_data["value"], 'items': test_tender_data["items"]}})
+        award = response.json['data']
+        self.app.authorization = auth
+        self.award_id = award['id']
+        self.award_value = award['value']
+        self.award_suppliers = award['suppliers']
+        self.award_items = award['items']
+        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
+
+    test_patch_tender_contract_pending_signed_status = snitch(patch_tender_contract_pending_signed_status)
+
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderContractChangeStatusTest))
     return suite
 
 

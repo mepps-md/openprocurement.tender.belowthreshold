@@ -5,6 +5,7 @@ from openprocurement.api.constants import TZ
 
 
 STAND_STILL_TIME = timedelta(minutes=1)
+STAND_STILL_PENDING_SIGNED = timedelta(minutes=15)
 # COMPLAINT_STAND_STILL_TIME = timedelta(days=3)
 # BIDDER_TIME = timedelta(minutes=6)
 # SERVICE_TIME = timedelta(minutes=9)
