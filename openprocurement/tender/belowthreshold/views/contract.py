@@ -19,7 +19,7 @@ from openprocurement.tender.core.validation import (
     validate_update_contract_only_for_active_lots,
     validate_contract_operation_not_in_allowed_status
 )
-from openprocurement.tender.belowthreshold.constants import STAND_STILL_PENDING_SIGNED
+from openprocurement.tender.core.constants import STAND_STILL_PENDING_SIGNED
 from openprocurement.tender.belowthreshold.utils import (
     check_tender_status,
 )
