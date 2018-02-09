@@ -819,6 +819,7 @@ def create_tender_award_complaint(self):
     self.assertEqual(complaint['author']['name'], test_organization['name'])
     self.assertIn('id', complaint)
     self.assertIn(complaint['id'], response.headers['Location'])
+    self.assertNotIn('transfer_token', complaint)
 
     self.set_status('active.awarded')
 
@@ -1026,6 +1027,7 @@ def get_tender_award_complaint(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data'], complaint)
+    self.assertNotIn('transfer_token', response.json['data'])
 
     response = self.app.get('/tenders/{}/awards/{}/complaints/some_id'.format(self.tender_id, self.award_id), status=404)
     self.assertEqual(response.status, '404 Not Found')

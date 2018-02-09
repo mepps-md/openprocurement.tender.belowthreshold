@@ -595,6 +595,7 @@ def create_tender(self):
     self.assertEqual(response.status, '201 Created')
     self.assertEqual(response.content_type, 'application/json')
     tender = response.json['data']
+    self.assertNotIn('transfer_token', tender)
 
     response = self.app.get('/tenders/{}'.format(tender['id']))
     self.assertEqual(response.status, '200 OK')
@@ -721,6 +722,7 @@ def get_tender(self):
     self.assertEqual(response.status, '200 OK')
     self.assertEqual(response.content_type, 'application/json')
     self.assertEqual(response.json['data'], tender)
+    self.assertNotIn('transfer_token', response.json['data'])
 
     response = self.app.get('/tenders/{}?opt_jsonp=callback'.format(tender['id']))
     self.assertEqual(response.status, '200 OK')
