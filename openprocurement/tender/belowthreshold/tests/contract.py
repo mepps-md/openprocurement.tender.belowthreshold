@@ -23,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     # TenderContractDocumentResourceTest
     not_found,
     create_tender_contract_document,
+    create_update_contract_document,
     put_tender_contract_document,
     patch_tender_contract_document,
     # Tender2LotContractDocumentResourceTest
@@ -70,6 +71,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_create_tender_contract = snitch(create_tender_contract)
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_pending_signed_status = snitch(patch_tender_contract_pending_signed_status)
 
 
 class Tender2LotContractResourceTest(TenderContentWebTest):
@@ -124,6 +126,8 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
         self.contract_id = contract['id']
         self.app.authorization = auth
 
+    test_create_update_contract_document = snitch(create_update_contract_document)
+
 
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     initial_status = 'active.qualification'
@@ -160,35 +164,10 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     lot2_patch_tender_contract_document = snitch(lot2_patch_tender_contract_document)
 
 
-class TenderContractChangeStatusTest(TenderContentWebTest):
-    initial_status = 'active.qualification'
-    initial_bids = test_bids
-    initial_auth = ('Basic', ('broker', ''))
-
-    def setUp(self):
-        super(TenderContractChangeStatusTest, self).setUp()
-        # Create award
-        auth = self.app.authorization
-        self.app.authorization = ('Basic', ('token', ''))
-        response = self.app.post_json('/tenders/{}/awards'.format(
-            self.tender_id), {'data': {'suppliers': [test_organization], 'status': 'pending', 'bid_id': self.initial_bids[0]['id'], 'value': test_tender_data["value"], 'items': test_tender_data["items"]}})
-        award = response.json['data']
-        self.app.authorization = auth
-        self.award_id = award['id']
-        self.award_value = award['value']
-        self.award_suppliers = award['suppliers']
-        self.award_items = award['items']
-        response = self.app.patch_json('/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, self.tender_token), {"data": {"status": "active"}})
-
-    test_patch_tender_contract_pending_signed_status = snitch(patch_tender_contract_pending_signed_status)
-
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractChangeStatusTest))
     return suite
 
 
