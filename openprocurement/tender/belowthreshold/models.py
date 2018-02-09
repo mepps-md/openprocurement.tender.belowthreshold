@@ -26,7 +26,7 @@ from openprocurement.api.validation import (
 
 from openprocurement.tender.core.models import ITender
 from openprocurement.tender.core.models import (
-    view_role, create_role, edit_role,
+    view_role, create_role, edit_role, enquiries_role,
     auction_view_role, auction_post_role, auction_patch_role, auction_role,
     chronograph_role, chronograph_view_role,
 )
@@ -50,7 +50,6 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_STAND_STILL_TIME
 )
 
-enquiries_role = (blacklist('transfer_token', 'owner_token', '_attachments', 'revisions', 'bids', 'numberOfBids') + schematics_embedded_role)
 Administrator_role = whitelist('status', 'mode', 'procuringEntity', 'auctionPeriod', 'lots')
 
 
