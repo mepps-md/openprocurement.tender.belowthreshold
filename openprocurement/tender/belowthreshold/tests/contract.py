@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     create_tender_contract,
     create_tender_contract_in_complete_status,
     patch_tender_contract,
+    patch_tender_contract_item,
     get_tender_contract,
     get_tender_contracts,
     # Tender2LotContractResourceTest
@@ -71,6 +72,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_create_tender_contract = snitch(create_tender_contract)
     test_create_tender_contract_in_complete_status = snitch(create_tender_contract_in_complete_status)
     test_patch_tender_contract = snitch(patch_tender_contract)
+    test_patch_tender_contract_item = snitch(patch_tender_contract_item)
     test_patch_tender_contract_pending_signed_status = snitch(patch_tender_contract_pending_signed_status)
 
 

@@ -17,7 +17,8 @@ from openprocurement.tender.core.validation import (
     validate_patch_contract_data,
     validate_update_contract_value,
     validate_update_contract_only_for_active_lots,
-    validate_contract_operation_not_in_allowed_status
+    validate_contract_operation_not_in_allowed_status,
+    validate_contract_items_count_modification
 )
 from openprocurement.tender.core.constants import STAND_STILL_PENDING_SIGNED
 from openprocurement.tender.belowthreshold.utils import (
@@ -58,7 +59,7 @@ class TenderAwardContractResource(APIResource):
         return {'data': self.request.validated['contract'].serialize()}
 
     @json_view(content_type="application/json", permission='edit_tender', validators=(validate_patch_contract_data, validate_contract_operation_not_in_allowed_status,
-               validate_update_contract_only_for_active_lots, validate_update_contract_value, validate_contract_signing))
+               validate_update_contract_only_for_active_lots, validate_update_contract_value, validate_contract_items_count_modification, validate_contract_signing))
     def patch(self):
         """Update of contract
         """
