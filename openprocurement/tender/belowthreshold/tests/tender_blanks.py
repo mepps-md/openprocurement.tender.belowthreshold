@@ -1585,6 +1585,32 @@ def lost_contract_for_active_award(self):
     self.assertEqual(response.json['data']['status'], 'complete')
 
 
+def tender_items(self):
+    response = self.app.get('/tenders')
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(len(response.json['data']), 0)
+
+    test_tender_data = deepcopy(self.initial_data)
+    response = self.app.post_json('/tenders', {'data': test_tender_data})
+    self.assertEqual(response.status, '201 Created')
+    tender = response.json['data']
+    owner_token = response.json['access']['token']
+
+    response = self.app.patch_json('/tenders/{}?acc_token={}'.format(
+        tender['id'], owner_token), {'data': {'items': [{
+            'description': u"Another custom item description",
+            'quantity': 15,
+            'deliveryLocation': {'latitude': "12.123", 'longitude': "170.123"}
+        }]}})
+    self.assertEqual(response.status, '200 OK')
+    self.assertEqual(response.content_type, 'application/json')
+    self.assertEqual(response.json['data']['items'][0]['description'],
+                     u"Another custom item description")
+    self.assertEqual(response.json['data']['items'][0]['quantity'], 15)
+    self.assertEqual(response.json['data']['items'][0]['deliveryLocation']['latitude'], "12.123")
+    self.assertEqual(response.json['data']['items'][0]['deliveryLocation']['longitude'], "170.123")
+
+
 def tender_item_location_validation(self):
     response = self.app.get('/tenders')
     self.assertEqual(response.status, '200 OK')

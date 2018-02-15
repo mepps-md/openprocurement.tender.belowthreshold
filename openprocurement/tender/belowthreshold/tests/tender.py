@@ -38,6 +38,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     coordinates_reg_exp,
     # TenderTest
     simple_add_tender,
+    tender_items,
     tender_item_location_validation,
 )
 
@@ -48,6 +49,7 @@ class TenderResourceTestMixin(object):
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
     test_create_tender = snitch(create_tender)
+    test_tender_items = snitch(tender_items)
     test_tender_item_location_validation = snitch(tender_item_location_validation)
     test_tender_features = snitch(tender_features)
     test_get_tender = snitch(get_tender)
